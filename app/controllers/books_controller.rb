@@ -1,13 +1,16 @@
 class BooksController < ApplicationController
     def index
         @books = Book.all
+    end
+
+    def new
         @book = Book.new
     end
 
     def create
         book = Book.new(book_params)
         book.save
-        redirect_to '/show'
+        redirect_to books_path
     end
 
     def show
@@ -16,14 +19,15 @@ class BooksController < ApplicationController
 
     def edit
     end
-    
+
     def destroy
     end
 
     private
     #ストロングパラメータ
     def book_params
-        params.require(:book).permit(:title, :body)
+        # param is missing or the value is empty: bookが出るため.require(:book)を削除。
+        params.permit(:title, :body)
     end
 
 end
