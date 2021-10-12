@@ -9,8 +9,8 @@ class BooksController < ApplicationController
 
     def create
         book = Book.new(book_params)
-        book.save
-        redirect_to books_path
+        if book.save
+          redirect_to book_path(book.id), notice: 'メッセージが送信されました'
     end
 
     def show
@@ -20,21 +20,27 @@ class BooksController < ApplicationController
     def edit
         @book = Book.find(params[:id])
     end
-    
+
     def update
-        book = Blog.find(params[:id])
-        book.update(book_params)
-        redirect_to book_path(boo)
+        @book = Book.find(params[:id])
+        if @book.update(book_params)
+        redirect_to book_path(@book.id)
+        else
+        redirect_to books_path
+        end
     end
 
     def destroy
+        book = Book.find(params[:id])
+        book.destroy
+        redirect_to books_path
     end
 
     private
     #ストロングパラメータ
     def book_params
-        # param is missing or the value is empty: bookが出るため.require(:book)を削除。
-        params.permit(:title, :body)
+        # param is missing or the value is empty: bookが出るためを削除。
+        params.require(:book).permit(:title, :body)
     end
 
 end

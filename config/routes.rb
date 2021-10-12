@@ -3,5 +3,4 @@ Rails.application.routes.draw do
   root to: 'homes#top'
 
   resources :books
-  post 'books/:id' => 'books#create' #削除可
 end
