@@ -4,17 +4,15 @@ class BooksController < ApplicationController
         @book = Book.new
     end
 
-    def new
-        @book = Book.new
-    end
 
     def create
-        book = Book.new(book_params)
-        if book.save
+        @book = Book.new(book_params)
+        if @book.save
             flash[:notice] = "Book was successfully created."
-            redirect_to book_path(book.id)
+            redirect_to book_path(@book.id)
         else
-            flash.now[:alert] = 'メッセージを入力してください。'
+            @books = Book.all
+            flash[:alert] = 'メッセージを入力してください。'
             render :index
         end
     end
@@ -34,7 +32,7 @@ class BooksController < ApplicationController
             redirect_to book_path(@book.id)
         else
             flash.now[:alert] = 'メッセージを入力してください。'
-            redirect_to books_path
+            render :edit
         end
     end
 
